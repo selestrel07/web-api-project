@@ -1,25 +1,35 @@
-import logo from './logo.png';
 import './App.css';
+import InfoCard from './components/InfoCard';
+import InstructorPick from './components/InstructorPick.js'
+import ErrorBoundry from './components/ErrorBoundry'
+import { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      instructorPicked: '',
+      instructorList: []
+    };
+  }
+
+
+  componentDidMount() {
+    fetch("https://swapi.py4e.com/api/people/")
+      .then(res => res.json())
+      .then(res => this.setState({instructorList: res.results}));
+}
+
+  render() {
+    return (
+      <div className="header">
+          <InstructorPick instructors={this.state.instructorList} />
+          <ErrorBoundry>
+            <InfoCard instructor={this.state.instructorList[0]} />
+          </ErrorBoundry>
+      </div>
+    );
+  }
 }
 
 export default App;
