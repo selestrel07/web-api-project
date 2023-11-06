@@ -1,10 +1,12 @@
+import './FactLine.css'
+
 const FactLine = ({ messages }) => {
     return(
-        <div style={{overflowY: 'scroll', border: '3px solid black', height: '500px', width: '300px', margin: '0 auto', display: 'flex', flexDirection: 'column-reverse'}}>
+        <div class="line dib bg-light-blue v-top mt0">
             {
-                messages.map(message => {
+                messages.map((message, i) => {
                     return (
-                    <div>{message}</div>
+                    <div class="msg bg-washed-green mid-gray pa4" key={"msg" + i}>{message}</div>
                     )
                 })
             }

@@ -24,17 +24,18 @@ class App extends Component {
   }
 
   onFactologistChange = (Event) => {
-    this.setState({ factologist: Event.target.value });
+    this.setState({ factologist: Event.target.value, messages: [] });
   }
 
-  onFactAdd = () => {
-    this.setState({messages: [...this.state.messages, "new message"]});
-    console.log(this.getNewFact().value);
+  onFactAdd = async () => {
+    const newFact = await(this.getNewFact());
+    this.setState({messages: [...this.state.messages, newFact]});
   }
 
-  getNewFact = () => {
-    return fetch('https://api.chucknorris.io/jokes/random')
-      .then(res => res.json());
+  getNewFact = async () => {
+    const response = await fetch('https://api.chucknorris.io/jokes/random');
+    const data = await response.json();
+    return data.value;
   }
 
   render() {
@@ -46,7 +47,7 @@ class App extends Component {
       }
       const currentFactologist = this.state.factologists.filter(factologist => factologist.name === this.state.factologist)[0];
       return (
-        <div className="tc">
+        <div className="tc bg-navy silver">
           <div class="f1">Factology</div>
             <Selector factologistChange={this.onFactologistChange} text='Pick your factologist: ' items={this.state.factologists
               .map(factologist => [factologist.url.split('/').at(-2), factologist.name])} />
@@ -54,8 +55,8 @@ class App extends Component {
               <FactBox>
                 <InfoCard factologist={currentFactologist} />
                 <FactLine messages={this.state.messages}/>
-                <button onClick={this.onFactAdd}>Go to the new Fact!</button>
               </FactBox>
+              <button onClick={this.onFactAdd}>Go to the new Fact!</button>
             </ErrorBoundry>
         </div>
       );

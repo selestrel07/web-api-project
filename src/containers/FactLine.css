@@ -1,0 +1,17 @@
+.line {
+    overflow-y: scroll;
+    border: 3px solid black;
+    height: 95vh;
+    max-height: 95vh;
+    width: 300px;
+    margin: 0 auto
+}
+
+.msg {
+    border: 1px solid black;
+    padding: 10px;
+    max-width: 80%;
+    margin: 10px auto;
+    border-radius: 10% 35%;
+    text-align: left;
+}
